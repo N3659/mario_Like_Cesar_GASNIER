@@ -1,0 +1,73 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "assets/Niveau_Acceptations_Tiled.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "assets/Niveau_Acceptations_Tiled.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 4920,
+                "y": 2242
+            }
+        },
+        "assets/Niveau_Colere_Tiled.tmx": {
+            "scale": 0.33,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 427.27272727272725,
+                "y": 843.9393939393938
+            }
+        },
+        "assets/Niveau_Deni_Tiled.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 1076,
+                "y": 1614
+            }
+        },
+        "assets/Niveau_Depression_Tiled.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 540,
+                "y": 886
+            }
+        },
+        "assets/Niveau_Marchandage_Tiled.tmx": {
+            "scale": 0.25,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 780,
+                "y": 1154
+            }
+        },
+        "assets/idee_assets.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.imagePath": "F:/mario_Like/assets",
+    "map.height": 60,
+    "map.lastUsedFormat": "tmx",
+    "map.width": 60,
+    "openFiles": [
+        "assets/idee_assets.tsx",
+        "assets/Niveau_Acceptations_Tiled.tmx"
+    ],
+    "project": "Hell_In_Other_Words.tiled-project",
+    "recentFiles": [
+        "assets/idee_assets.tsx",
+        "assets/Niveau_Acceptations_Tiled.tmx",
+        "assets/Niveau_Depression_Tiled.tmx",
+        "assets/Niveau_Marchandage_Tiled.tmx",
+        "assets/Niveau_Colere_Tiled.tmx",
+        "assets/Niveau_Deni_Tiled.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
