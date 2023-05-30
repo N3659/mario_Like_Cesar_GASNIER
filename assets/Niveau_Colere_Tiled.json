@@ -306,6 +306,15 @@
                          "type":"bool",
                          "value":true
                         }]
+                }, 
+                {
+                 "id":11,
+                 "properties":[
+                        {
+                         "name":"estTrigger",
+                         "type":"bool",
+                         "value":true
+                        }]
                 }],
          "tilewidth":32
         }],

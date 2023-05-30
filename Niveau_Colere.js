@@ -14,7 +14,7 @@ preload(){
 
     this.load.image("Background_Colere", "Background/BG_Niveau/Background_Colere.png");
 
-    this.load.image("overlap", "assets/overlap.png")
+    this.load.image("Passage_Colere_Depression", "assets/Entre_Niveaux/Passage_Colere_Marchandage.png")
 }
 
 create(){
@@ -43,6 +43,11 @@ create(){
     this.player = this.physics.add.sprite(550, 2500, 'ame');
     this.player.setBounce(0);    
 
+    this.passageColereDepression = this.add.image(643, 378, "Passage_Colere_Depression").setVisible(false)
+    this.passageColereDepression.setScale(0.49)
+    this.passageColereDepression.setDepth(10)
+    this.passageColereDepression.setScrollFactor(0)
+
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setZoom(1.3);
 
@@ -54,7 +59,7 @@ create(){
     this.touche = this.input.keyboard.addKey();
 
     this.toucheQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-    this.toucheZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
+    this.toucheSpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     this.toucheS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
     this.toucheD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
@@ -84,7 +89,7 @@ update(){
     //(on atterri)
     }    
 
-      const didPressJump = Phaser.Input.Keyboard.JustDown(this.toucheZ);
+      const didPressJump = Phaser.Input.Keyboard.JustDown(this.toucheSpace);
   
       // player can only double jump if the player just jumped
       if (didPressJump && this.canJump) {
@@ -108,8 +113,14 @@ update(){
 
 changementLVL(){
 
-    this.scene.start('Niveau_Depression')
+    setTimeout(() => {
 
+        this.scene.start('Niveau_Marchandage')
+
+    }, 2000);
+
+    this.passageColereDepression.setVisible(true);
+
+    this
 }
-
 };

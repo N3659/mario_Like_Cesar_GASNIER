@@ -307,7 +307,21 @@
                  "id":10,
                  "properties":[
                         {
+                         "name":"estGameOver",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
                          "name":"estSolide",
+                         "type":"bool",
+                         "value":true
+                        }]
+                }, 
+                {
+                 "id":11,
+                 "properties":[
+                        {
+                         "name":"estTrigger",
                          "type":"bool",
                          "value":true
                         }]

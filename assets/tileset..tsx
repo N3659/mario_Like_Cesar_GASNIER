@@ -57,4 +57,9 @@
    <property name="estSolide" type="bool" value="true"/>
   </properties>
  </tile>
+ <tile id="11">
+  <properties>
+   <property name="estTrigger" type="bool" value="true"/>
+  </properties>
+ </tile>
 </tileset>

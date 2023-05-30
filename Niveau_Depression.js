@@ -14,10 +14,19 @@ export class Niveau_Depression extends Phaser.Scene{
     
         this.load.image("Background_Depression", "Background/BG_Niveau/Background_Depression.png");
 
-        this.load.image("black_screen", "assets/black_screen.png")
+        this.load.image("black_screen", "assets/Entre_Niveaux/Fin_Jeu.png")
+
+        this.load.image("GameOver", "game_Over/ecran_game_Over.png")
+
+        this.load.audio("Musique_Depression", 'assets/Music/Musique_Depression.mp3')
+
+
     }
 
     create(){
+
+        this.musiqueDeFond = this.sound.add("Musique_Depression");
+        this.musiqueDeFond.play();
 
         this.add.image(479, 1279, 'Background_Depression');
 
@@ -36,7 +45,7 @@ export class Niveau_Depression extends Phaser.Scene{
         );
 
         const Pics = carteDuNiveau.createLayer(
-            "pics",
+            "Pics",
             tileset
         )
 
@@ -44,9 +53,17 @@ export class Niveau_Depression extends Phaser.Scene{
         FinNiveau.setCollisionByProperty({estFini: true})
         Pics.setCollisionByProperty({estGameOver: true})
 
-        Pics.setVisible(true),  
-
         this.canJump = true;
+
+        this.FinJeu = this.add.image(590, 350, "Fin_Jeu").setVisible(false)
+        this.FinJeu.setScale(0.558)
+        this.FinJeu.setDepth(10)
+        this.FinJeu.setScrollFactor(0)
+
+        this.Gameover = this.add.image(645, 358, "GameOver").setVisible(false)
+        this.Gameover.setScale(0.515)
+        this.Gameover.setDepth(10)
+        this.Gameover.setScrollFactor(0)
         
         this.player = this.physics.add.sprite(550, 2500, 'ame');
         this.player.setBounce(0);    
@@ -57,15 +74,17 @@ export class Niveau_Depression extends Phaser.Scene{
 
         this.physics.add.collider(this.player, Plateformes)
         this.physics.add.collider(this.player, FinNiveau, this.changementLVL, null, this)
-        this.physics.add.collider(this.player, GameOver, this.GameOver, null, this)
+        this.physics.add.collider(this.player, Pics, this.GameOver, null, this)
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.touche = this.input.keyboard.addKey();
 
         this.toucheQ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q);
-        this.toucheZ = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
+        this.toucheSpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.toucheS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.toucheD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+        this.input.on('pointerdown', () => {this.click = true});
 
         
 
@@ -92,7 +111,7 @@ export class Niveau_Depression extends Phaser.Scene{
         //(on atterri)
         }    
 
-          const didPressJump = Phaser.Input.Keyboard.JustDown(this.toucheZ);
+          const didPressJump = Phaser.Input.Keyboard.JustDown(this.toucheSpace);
       
           // player can only double jump if the player just jumped
           if (didPressJump && this.canJump) {
@@ -109,6 +128,7 @@ export class Niveau_Depression extends Phaser.Scene{
               this.player.body.setVelocityY(-350);
 
             }
+            
 
          } 
 
@@ -116,14 +136,32 @@ export class Niveau_Depression extends Phaser.Scene{
 
     changementLVL(){
 
-        this.add.image('black_screen')
+        setTimeout(() => {
 
-        this.dia= this.add.text(990, 540, "Encore 3")
+            this.scene.start('Niveau_Depression')
 
-        delay: 600
+        }, 2000);
 
-        this.scene.start('Niveau_Colere')
+        this.FinJeu.setVisible(true)   
+
+        this.musiqueDeFond.stop()
 
     }
+
+    GameOver(){
+
+
+     setTimeout(() => {
+
+         this.scene.start('Niveau_Depression')
+
+     }, 2000);
+
+    this.musiqueDeFond.stop() 
+
+    this.Gameover.setVisible(true) 
+                    
+    
+}
 
 };
