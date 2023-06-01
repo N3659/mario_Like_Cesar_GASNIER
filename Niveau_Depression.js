@@ -138,7 +138,7 @@ export class Niveau_Depression extends Phaser.Scene{
 
         setTimeout(() => {
 
-            this.scene.start('Niveau_Depression')
+            this.scene.start('Menu')
 
         }, 2000);
 

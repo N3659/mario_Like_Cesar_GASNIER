@@ -37,7 +37,7 @@ export class Menu extends Phaser.Scene{
 
         this.musiqueDeFond.stop();
 
-        this.scene.start('Niveau_Depression')
+        this.scene.start('Niveau_Colere')
 
     }
 
