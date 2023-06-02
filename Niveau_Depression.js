@@ -14,11 +14,12 @@ export class Niveau_Depression extends Phaser.Scene{
     
         this.load.image("Background_Depression", "Background/BG_Niveau/Background_Depression.png");
 
-        this.load.image("black_screen", "assets/Entre_Niveaux/Fin_Jeu.png")
+        this.load.image("Fin_Jeu", "assets/Entre_Niveaux/Fin_Jeu.png")
 
         this.load.image("GameOver", "game_Over/ecran_game_Over.png")
 
         this.load.audio("Musique_Depression", 'assets/Music/Musique_Depression.mp3')
+        //chargement des sprites et de la musique
 
 
     }
@@ -27,12 +28,15 @@ export class Niveau_Depression extends Phaser.Scene{
 
         this.musiqueDeFond = this.sound.add("Musique_Depression");
         this.musiqueDeFond.play();
+        //lancement musique dépression
 
         this.add.image(479, 1279, 'Background_Depression');
+        //background
 
         const carteDuNiveau = this.add.tilemap("Niveau_Depression")
 
         const tileset = carteDuNiveau.addTilesetImage("tileset", "Tileset")
+        //chargement map et tileset
 
         const Plateformes = carteDuNiveau.createLayer(
             "Plateformes",
@@ -48,33 +52,39 @@ export class Niveau_Depression extends Phaser.Scene{
             "Pics",
             tileset
         )
+        //chargement sprites
 
         Plateformes.setCollisionByProperty({estSolide: true})
         FinNiveau.setCollisionByProperty({estFini: true})
         Pics.setCollisionByProperty({estGameOver: true})
+        //propriétés des sprites
 
         this.canJump = true;
 
-        this.FinJeu = this.add.image(590, 350, "Fin_Jeu").setVisible(false)
+        this.FinJeu = this.add.image(590, 375, "Fin_Jeu").setVisible(false)
         this.FinJeu.setScale(0.558)
         this.FinJeu.setDepth(10)
         this.FinJeu.setScrollFactor(0)
+        //chargement ecran fin jeu
 
         this.Gameover = this.add.image(645, 358, "GameOver").setVisible(false)
         this.Gameover.setScale(0.515)
         this.Gameover.setDepth(10)
         this.Gameover.setScrollFactor(0)
+        //chargement ecran GameOver
         
         this.player = this.physics.add.sprite(550, 2500, 'ame');
         this.player.setBounce(0);    
+        //sprite personnage
 
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setZoom(1.3);
-
+        //camera
 
         this.physics.add.collider(this.player, Plateformes)
         this.physics.add.collider(this.player, FinNiveau, this.changementLVL, null, this)
         this.physics.add.collider(this.player, Pics, this.GameOver, null, this)
+        //chargement collisions => fonctions
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.touche = this.input.keyboard.addKey();
@@ -83,10 +93,7 @@ export class Niveau_Depression extends Phaser.Scene{
         this.toucheSpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.toucheS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.toucheD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
-        this.input.on('pointerdown', () => {this.click = true});
-
-        
+        //chargement des touches Z/Q/S/Espace
 
 
     }
@@ -113,16 +120,16 @@ export class Niveau_Depression extends Phaser.Scene{
 
           const didPressJump = Phaser.Input.Keyboard.JustDown(this.toucheSpace);
       
-          // player can only double jump if the player just jumped
+          //Double saut que si le joueur a sauté normalement avant
           if (didPressJump && this.canJump) {
             if (this.player.body.onFloor()) {
-              // player can only double jump if it is on the floor
+              //Le joueur ne peut double sauter que s'il touche le sol
               this.canDoubleJump = true;
               
 
               this.player.body.setVelocityY(-400);
             } else if (this.canDoubleJump) {
-              // player can only jump 2x (double jump)
+              //Double saut uniquement (pas de triple)
               this.canDoubleJump = false;
 
               this.player.body.setVelocityY(-350);
@@ -141,25 +148,31 @@ export class Niveau_Depression extends Phaser.Scene{
             this.scene.start('Menu')
 
         }, 2000);
+        //après 2s, le jeu se termine
 
         this.FinJeu.setVisible(true)   
+        //ecran de fin du jeu
 
         this.musiqueDeFond.stop()
+        //arret musique fond
 
     }
 
     GameOver(){
 
 
-     setTimeout(() => {
+    setTimeout(() => {
 
-         this.scene.start('Niveau_Depression')
+        this.scene.start('Niveau_Depression')
 
-     }, 2000);
+    }, 2000);
+    //après 2s, le niveau recommence si le joueur perd
 
     this.musiqueDeFond.stop() 
+    //arret musique de fond
 
     this.Gameover.setVisible(true) 
+    //affichage ecran GameOver
                     
     
 }

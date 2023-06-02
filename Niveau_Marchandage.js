@@ -19,18 +19,22 @@ export class Niveau_Marchandage extends Phaser.Scene{
         this.load.image("Retour_Case_Depart", "assets/RetourCaseDepart.png")
 
         this.load.audio("Musique_Marchandage", 'assets/Music/Musique_Marchandage.mp3')
+        //chargement des sprites et de la musique
     }
 
     create(){
 
         this.musiqueDeFond = this.sound.add("Musique_Marchandage");
         this.musiqueDeFond.play();
+        //lancement de la musique 
 
         this.add.image(479, 1279, 'Background_Marchandage');
+        //affichage Background
 
         const carteDuNiveau = this.add.tilemap("Niveau_Marchandage")
 
         const tileset = carteDuNiveau.addTilesetImage("tileset", "Tileset")
+        //Chargement map et tileset
 
         const Plateformes = carteDuNiveau.createLayer(
             "Plateformes",
@@ -46,34 +50,42 @@ export class Niveau_Marchandage extends Phaser.Scene{
             "RetourDebut",
             tileset
         );
+        //chargement des calques
 
         FinNiveau.setCollisionByProperty({estFini: true}),
         RetourDebut.setCollisionByProperty({estTrigger: true}),
         Plateformes.setCollisionByProperty({estSolide: true}),
+        //propriétés des calques
 
         this.canJump = true;
+        //fonction double saut
 
         this.passageMarchandageDepression = this.add.image(606, 357, "Passage_Marchandage_Depression").setVisible(false)
         this.passageMarchandageDepression.setScale(0.52)
         this.passageMarchandageDepression.setDepth(10)
         this.passageMarchandageDepression.setScrollFactor(0)
+        //chargement ecran de changement de niveau
 
         this.RetourDebut = this.add.image(600, 360, "Retour_Case_Depart").setVisible(false)
         this.RetourDebut.setScale(0.55)
         this.RetourDebut.setDepth(10)
         this.RetourDebut.setScrollFactor(0)
+        //chargement ecran de gameOver
 
         
         this.player = this.physics.add.sprite(550, 2500, 'ame');
         this.player.setBounce(0); 
         this.player.setDepth(2)   
+        //chargement sprites perso et proprietés
 
         this.cameras.main.startFollow(this.player);
         this.cameras.main.setZoom(1.3);
+        //chargement caméra
 
         this.physics.add.collider(this.player, Plateformes)
         this.physics.add.collider(this.player, FinNiveau, this.changementLVL, null, this)
         this.physics.add.collider(this.player, RetourDebut, this.retour, null, this)
+        //chargement des collisions calques
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.touche = this.input.keyboard.addKey();
@@ -82,6 +94,7 @@ export class Niveau_Marchandage extends Phaser.Scene{
         this.toucheEspace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.toucheS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.toucheD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        //deplacement avec Z/Q/S/Espace
 
 
     }
@@ -108,16 +121,16 @@ export class Niveau_Marchandage extends Phaser.Scene{
 
           const didPressJump = Phaser.Input.Keyboard.JustDown(this.toucheEspace);
       
-          // player can only double jump if the player just jumped
+          //Double saut possible seulement si le joueur a déjà fait le saut de base
           if (didPressJump && this.canJump ) {
             if (this.player.body.onFloor()) {
-              // player can only double jump if it is on the floor
+              //Le joueur peut activer le double saut seulement depuis une plateforme
               this.canDoubleJump = true;
               
 
               this.player.body.setVelocityY(-400);
             } else if (this.canDoubleJump) {
-              // player can only jump 2x (double jump)
+              // Le joueur ne peut que double sauter (pas de triple)
               this.canDoubleJump = false;
 
               this.player.body.setVelocityY(-350);
@@ -138,8 +151,10 @@ export class Niveau_Marchandage extends Phaser.Scene{
             this.musiqueDeFond.stop();
 
         }, 2000);
+        //affichage pdt 2s de l'ecran de changement de niveau avant le changement, et la musique s'arrete
 
         this.passageMarchandageDepression.setVisible(true);
+        //l'ecran de changement s'affiche
 
 
     }
@@ -154,8 +169,10 @@ export class Niveau_Marchandage extends Phaser.Scene{
             this.musiqueDeFond.stop();
             
         }, 2000);
+        //si le joueur touche la fonction retour, il est renvoyé au début du niveau après 2s
 
         this.RetourDebut.setVisible(true);
+        //affichage de l'ecran de GameOver
 
 
     }
