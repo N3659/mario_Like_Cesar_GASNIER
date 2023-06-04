@@ -2,16 +2,16 @@
 
 Touches :
 
-Q : gauche
-D : Droite
-S : fast fall
-ESPACE : saut
+Q : gauche | 
+D : Droite |
+S : fast fall |
+ESPACE : saut |
 ESPACE en l'air : Double Saut
 
 
 Documents rendus : 
 
-GCD : Rendu/4 mai
+GCD : Rendu/4 mai | 
 GDD : Rendu/7 mai
 
 
