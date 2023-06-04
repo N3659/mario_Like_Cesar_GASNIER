@@ -14,7 +14,7 @@ export class Menu extends Phaser.Scene{
 
     create () {
 
-        this.musiqueDeFond = this.sound.add("Musique_Menu");
+        this.musiqueDeFond = this.sound.add("Musique_Menu", {volume : 1.2});
         this.musiqueDeFond.play();
     
         this.add.image(640,355, "Ecran_Menu").setScale(0.659);

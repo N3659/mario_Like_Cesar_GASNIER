@@ -5,7 +5,9 @@ export class Niveau_Deni extends Phaser.Scene{
 
     preload(){
 
-        this.load.spritesheet('ame','Sprites/Sprites_anim/ame/ame.png',
+        this.load.audio("Musique_Deni", 'assets/Music/Musique_Deni.mp3')
+
+        this.load.spritesheet("ame","Sprites/ame/ame.png",
         { frameWidth: 32, frameHeight: 64 });    
         //chargement des sprites personnage
 
@@ -17,11 +19,32 @@ export class Niveau_Deni extends Phaser.Scene{
         this.load.image("Background_Deni", "Background/BG_Niveau/Background_Deni.png");
 
         this.load.image("Passage_Deni_Colere", "assets/Entre_Niveaux/Passage_Deni_Colere.png")
-
         //chargement du background du niveau et de l'ecran de passage
+
+        this.load.spritesheet("Perso_avance","/Sprites/ame/ame_course.png",
+        { frameWidth: 32, frameHeight: 64 });
+        //avancer (droite ou gauche)
+
+        this.load.spritesheet("Perso_saute","/Sprites/ame/ame_saut.png",
+        { frameWidth: 32, frameHeight: 64 });
+        //sauter
+
+        this.load.spritesheet("Perso_en_saut","/Sprites/ame/ame_en_saut.png",
+        { frameWidth: 32, frameHeight: 64 });
+        //en l'air
+
+        this.load.spritesheet("Perso_Idle","/Sprites/ame/ame_idle.png",
+        { frameWidth: 32, frameHeight: 64 });
+        //en l'air
+
+        
     }
 
     create(){
+
+        this.musiqueDeFond = this.sound.add("Musique_Deni", {volume : 1.5});
+        this.musiqueDeFond.play();
+
 
         this.add.image(479, 1279, 'Background_Deni');
         //ajout du background avec coordonnées 
@@ -78,6 +101,35 @@ export class Niveau_Deni extends Phaser.Scene{
 
         //creation des touches du clavier
 
+        this.anims.create({
+            key: 'Gauche',
+            frames: this.anims.generateFrameNumbers('Perso_avance', {start:0,end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'Droite',
+            frames: this.anims.generateFrameNumbers('Perso_avance', {start:0,end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'Idle',
+            frames: this.anims.generateFrameNumbers('Perso_Idle', {start:0,end:3}),
+            frameRate: 4,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'Saut',
+            frames: this.anims.generateFrameNumbers('Perso_saute', {start:0,end:3}),
+            frameRate: 9,
+            repeat: 0
+        });
+
+
 
     }
 
@@ -86,40 +138,57 @@ export class Niveau_Deni extends Phaser.Scene{
         
 
         if (this.cursors.left.isDown || this.toucheQ.isDown ){ //si la touche gauche est appuyée
-            this.player.setVelocityX(-300); //alors vitesse négative en X, personnage vers la gauche
+            this.player.setVelocityX(-250); //alors vitesse négative en X, personnage vers la gauche
+
+            if (this.player.body.onFloor())
+                this.player.anims.play('Gauche', true); 
+                this.player.setFlipX(true); //et animation => gauche
         }
         else if (this.cursors.right.isDown || this.toucheD.isDown ){ //sinon si la touche droite est appuyée
-            this.player.setVelocityX(300); //alors vitesse positive en X, personnage vers la droite
+            this.player.setVelocityX(250); //alors vitesse positive en X, personnage vers la droite
+
+            if (this.player.body.onFloor())
+                this.player.anims.play('Droite', true); 
+                this.player.setFlipX(false);
         }
         else{ // sinon
             this.player.setVelocityX(0); //vitesse nulle, perso immobile
+
+            if (this.player.body.onFloor())
+                this.player.anims.play('Idle', true);
         }
 
         if (this.cursors.down.isDown || this.toucheS.isDown ){
         //si touche bas appuyée
-            this.player.setVelocityY(315); //alors vitesse verticale positive
+            this.player.setVelocityY(280); //alors vitesse verticale positive
         //(on atterri)
         }    
 
-          const didPressJump = Phaser.Input.Keyboard.JustDown(this.toucheEspace);
+          const EspacePresse = Phaser.Input.Keyboard.JustDown(this.toucheEspace);
+
       
-          // Le joueur de peux double jump que s'il fait un saut avant
-          if (didPressJump && this.canJump ) {
+          // Le joueur ne peux double jump que s'il fait un saut avant
+
+        if (EspacePresse && this.canJump ) {
+
             if (this.player.body.onFloor()) {
+
               // le joueur ne peux double jump que s'il est sur le sol
-              this.canDoubleJump = true;
-              
+                this.PeutDoubleSaut = true; 
+                this.player.anims.play('Saut', true)
+                this.player.body.setVelocityY(-400);
 
-              this.player.body.setVelocityY(-400);
-            } else if (this.canDoubleJump) {
+            } else if (this.PeutDoubleSaut) {
+
               // le joueur ne peux sauter que 2 fois (pas de triple saut)
-              this.canDoubleJump = false;
+                this.PeutDoubleSaut = false ;
 
-              this.player.body.setVelocityY(-350);
+                this.player.anims.play('Saut', true)
+                this.player.body.setVelocityY(-350);
 
             }
 
-         } 
+        } 
 
 
 
@@ -130,6 +199,8 @@ export class Niveau_Deni extends Phaser.Scene{
         setTimeout(() => { //delai pour voir l'ecran avant de changer
 
             this.scene.start('Niveau_Colere') //changement de scene
+            this.musiqueDeFond.stop();//arret musique
+
 
         }, 2000); //2000ms de delai
 

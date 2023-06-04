@@ -5,7 +5,7 @@ export class Niveau_Depression extends Phaser.Scene{
 
     preload(){
 
-        this.load.spritesheet('ame','Sprites/Sprites_anim/ame/ame.png',
+        this.load.spritesheet('ame','Sprites/ame/ame.png',
         { frameWidth: 32, frameHeight: 64 });    
 
         this.load.image("Tileset", "assets/tileset.png");
@@ -20,6 +20,24 @@ export class Niveau_Depression extends Phaser.Scene{
 
         this.load.audio("Musique_Depression", 'assets/Music/Musique_Depression.mp3')
         //chargement des sprites et de la musique
+
+        
+        this.load.spritesheet("Perso_avance","/Sprites/ame/ame_course.png",
+        { frameWidth: 32, frameHeight: 64 });
+        //avancer (droite ou gauche)
+
+        this.load.spritesheet("Perso_saute","/Sprites/ame/ame_saut.png",
+        { frameWidth: 32, frameHeight: 64 });
+        //sauter
+
+        this.load.spritesheet("Perso_en_saut","/Sprites/ame/ame_en_saut.png",
+        { frameWidth: 32, frameHeight: 64 });
+        //en l'air
+
+        this.load.spritesheet("Perso_Idle","/Sprites/ame/ame_idle.png",
+        { frameWidth: 32, frameHeight: 64 });
+        //en l'air
+
 
 
     }
@@ -95,6 +113,34 @@ export class Niveau_Depression extends Phaser.Scene{
         this.toucheD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         //chargement des touches Z/Q/S/Espace
 
+        this.anims.create({
+            key: 'Gauche',
+            frames: this.anims.generateFrameNumbers('Perso_avance', {start:0,end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+    
+        this.anims.create({
+            key: 'Droite',
+            frames: this.anims.generateFrameNumbers('Perso_avance', {start:0,end:3}),
+            frameRate: 10,
+            repeat: -1
+        });
+    
+        this.anims.create({
+            key: 'Idle',
+            frames: this.anims.generateFrameNumbers('Perso_Idle', {start:0,end:3}),
+            frameRate: 4,
+            repeat: -1
+        });
+    
+        this.anims.create({
+            key: 'Saut',
+            frames: this.anims.generateFrameNumbers('Perso_saute', {start:0,end:3}),
+            frameRate: 9,
+            repeat: 0
+        });
+
 
     }
 
@@ -103,36 +149,52 @@ export class Niveau_Depression extends Phaser.Scene{
         
 
         if (this.cursors.left.isDown || this.toucheQ.isDown){ //si la touche gauche est appuyée
-            this.player.setVelocityX(-300); //alors vitesse négative en X
+            this.player.setVelocityX(-200); //alors vitesse négative en X
+
+            if (this.player.body.onFloor())
+                this.player.anims.play('Gauche', true); 
+                this.player.setFlipX(true);
+
         }
         else if (this.cursors.right.isDown || this.toucheD.isDown){ //sinon si la touche droite est appuyée
-            this.player.setVelocityX(300); //alors vitesse positive en X
+            this.player.setVelocityX(200); //alors vitesse positive en X
+
+            if (this.player.body.onFloor())
+                this.player.anims.play('Droite', true);
+                this.player.setFlipX(false); 
+
         }
         else{ // sinon
             this.player.setVelocityX(0); //vitesse nulle
+
+            if (this.player.body.onFloor())
+                this.player.anims.play('Idle', true); 
+
         }
 
         if (this.cursors.down.isDown || this.toucheS.isDown){
         //si touche bas appuyée
-            this.player.setVelocityY(315); //alors vitesse verticale positive
+            this.player.setVelocityY(280); //alors vitesse verticale positive
         //(on atterri)
         }    
 
           const didPressJump = Phaser.Input.Keyboard.JustDown(this.toucheSpace);
       
           //Double saut que si le joueur a sauté normalement avant
-          if (didPressJump && this.canJump) {
+        if (didPressJump && this.canJump) {
             if (this.player.body.onFloor()) {
-              //Le joueur ne peut double sauter que s'il touche le sol
-              this.canDoubleJump = true;
-              
+                //Le joueur ne peut double sauter que s'il touche le sol
+                this.canDoubleJump = true;
+                
+                this.player.anims.play('Saut', true)  
+                this.player.body.setVelocityY(-400);
 
-              this.player.body.setVelocityY(-400);
-            } else if (this.canDoubleJump) {
-              //Double saut uniquement (pas de triple)
-              this.canDoubleJump = false;
+            }   else if (this.canDoubleJump) {
+                //Double saut uniquement (pas de triple)
+                this.canDoubleJump = false;
 
-              this.player.body.setVelocityY(-350);
+                this.player.anims.play('Saut', true)  
+                this.player.body.setVelocityY(-350);
 
             }
             
