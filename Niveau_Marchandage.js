@@ -138,7 +138,7 @@ export class Niveau_Marchandage extends Phaser.Scene{
         this.anims.create({
             key: 'Saut',
             frames: this.anims.generateFrameNumbers('Perso_saute', {start:0,end:3}),
-            frameRate: 9,
+            frameRate: 13,
             repeat: 0
         });
 

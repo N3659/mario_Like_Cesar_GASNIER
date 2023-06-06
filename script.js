@@ -1,3 +1,4 @@
+import { Cinematique_Debut } from "./Cinematique_Debut.js";
 import { Menu } from "./Menu.js"
 import { Niveau_Colere } from "./Niveau_Colere.js";
 import { Niveau_Deni } from "./Niveau_Deni.js"
@@ -14,10 +15,10 @@ var config =
         arcade:
         {
             gravity: { y: 800 },
-            debug: true
+            debug: false
         }
     },
-    scene: [Menu, Niveau_Deni, Niveau_Colere, Niveau_Marchandage, Niveau_Depression],
+    scene: [Menu, Cinematique_Debut, Niveau_Deni, Niveau_Colere, Niveau_Marchandage, Niveau_Depression],
 
 };
 new Phaser.Game(config);

@@ -21,8 +21,6 @@ export class Menu extends Phaser.Scene{
         this.add.image(600, 600, "Bouton_Start").setScale(0.4).setInteractive();
         this.input.on('pointerdown', () => {this.click = true});
 
-        
-
     }
 
     update(){
