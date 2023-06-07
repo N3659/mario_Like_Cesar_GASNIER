@@ -4,6 +4,7 @@ import { Niveau_Colere } from "./Niveau_Colere.js";
 import { Niveau_Deni } from "./Niveau_Deni.js"
 import { Niveau_Depression } from "./Niveau_Depression.js";
 import { Niveau_Marchandage } from "./Niveau_Marchandage.js";
+import { Cinematique_Fin } from "./Cinematique_Fin.js";
 
 var config =
 {
@@ -18,7 +19,7 @@ var config =
             debug: false
         }
     },
-    scene: [Menu, Cinematique_Debut, Niveau_Deni, Niveau_Colere, Niveau_Marchandage, Niveau_Depression],
+    scene: [Menu, Cinematique_Debut, Niveau_Deni, Niveau_Colere, Niveau_Marchandage, Niveau_Depression, Cinematique_Fin],
 
 };
 new Phaser.Game(config);

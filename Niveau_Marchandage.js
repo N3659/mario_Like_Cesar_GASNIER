@@ -8,6 +8,9 @@ export class Niveau_Marchandage extends Phaser.Scene{
         this.load.spritesheet('ame','Sprites/Sprites_anim/ame/ame.png',
         { frameWidth: 32, frameHeight: 64 });    
 
+        this.load.audio("Bruits_Pas", 'assets/Music/Pas.mp3')
+        //tentative de mettre des bruitages de pas
+
         this.load.image("Tileset", "assets/tileset.png");
 
         this.load.tilemapTiledJSON("Niveau_Marchandage", "assets/Niveau_Marchandage_Tiled.json");  
@@ -36,11 +39,13 @@ export class Niveau_Marchandage extends Phaser.Scene{
 
         this.load.spritesheet("Perso_Idle","/Sprites/ame/ame_idle.png",
         { frameWidth: 32, frameHeight: 64 });
-        //en l'air
+        //immobile
 
     }
 
     create(){
+
+        this.Mouvement = false
 
         this.musiqueDeFond = this.sound.add("Musique_Marchandage");
         this.musiqueDeFond.play();
@@ -141,6 +146,7 @@ export class Niveau_Marchandage extends Phaser.Scene{
             frameRate: 13,
             repeat: 0
         });
+        //ajout animations
 
 
     }
@@ -152,6 +158,8 @@ export class Niveau_Marchandage extends Phaser.Scene{
         if (this.cursors.left.isDown || this.toucheQ.isDown ){ //si la touche gauche est appuyée
             this.player.setVelocityX(-250); //alors vitesse négative en X
 
+            this.Mouvement = true
+
             if (this.player.body.onFloor())
                 this.player.anims.play('Gauche', true); 
                 this.player.setFlipX(true);
@@ -160,6 +168,8 @@ export class Niveau_Marchandage extends Phaser.Scene{
         else if (this.cursors.right.isDown || this.toucheD.isDown ){ //sinon si la touche droite est appuyée
             this.player.setVelocityX(250); //alors vitesse positive en X
 
+            this.Mouvement = true
+
             if (this.player.body.onFloor())
                 this.player.anims.play('Droite', true); 
                 this.player.setFlipX(false);
@@ -167,6 +177,8 @@ export class Niveau_Marchandage extends Phaser.Scene{
         }
         else{ // sinon
             this.player.setVelocityX(0); //vitesse nulle
+
+            this.Mouvement = false
 
             if (this.player.body.onFloor())
                 this.player.anims.play('Idle', true); 
@@ -199,7 +211,14 @@ export class Niveau_Marchandage extends Phaser.Scene{
 
             }
 
-         } 
+        } 
+
+        if (this.Mouvement === true){
+
+            this.sound.add("Bruits_Pas", {volume : 5});
+
+        }
+        //var bruitages, si Mouvement est true, le son se lance. tentative de bruitage
 
 
 

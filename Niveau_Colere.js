@@ -8,6 +8,9 @@ export class Niveau_Colere extends Phaser.Scene{
         this.load.audio("Musique_Colere", 'assets/Music/Musique_Colere.mp3')
         //chargement musique
 
+        this.load.audio("Bruits_Pas", 'assets/Music/Pas.mp3')
+        //tentative de mettre des bruitages de pas
+
         this.load.spritesheet('ame','Sprites/ame/ame.png',
         { frameWidth: 32, frameHeight: 64 });    
         //chargement sprite personnage
@@ -51,6 +54,9 @@ export class Niveau_Colere extends Phaser.Scene{
     }
 
     create(){
+
+        this.Mouvement = false
+        //var bruitages
 
         this.musiqueDeFond = this.sound.add("Musique_Colere", {volume : 0.5});
         this.musiqueDeFond.play();
@@ -116,6 +122,7 @@ export class Niveau_Colere extends Phaser.Scene{
             frameRate: 13,
             repeat: -1
         });
+        //ajout animations
 
 
         //animation ennemis
@@ -380,6 +387,9 @@ export class Niveau_Colere extends Phaser.Scene{
 
         if (this.cursors.left.isDown || this.toucheQ.isDown && this.LvlFini == false ) { //si la touche gauche est appuyée
             this.player.setVelocityX(-290); //alors vitesse négative en X
+            
+            this.Mouvement = true
+            //var bruitages
 
             if (this.player.body.onFloor())
                 this.player.anims.play('Gauche', true); 
@@ -388,12 +398,18 @@ export class Niveau_Colere extends Phaser.Scene{
         else if (this.cursors.right.isDown || this.toucheD.isDown && this.LvlFini == false){ //sinon si la touche droite est appuyée
             this.player.setVelocityX(290); //alors vitesse positive en X
 
+            this.Mouvement = true
+            //var bruitages
+
             if (this.player.body.onFloor())
+
                 this.player.anims.play('Droite', true); 
                 this.player.setFlipX(false);
         }
         else{ // sinon
             this.player.setVelocityX(0); //vitesse nulle
+
+            this.Mouvement = false
 
             if (this.player.body.onFloor())
                 this.player.anims.play('Idle', true); 
@@ -425,7 +441,14 @@ export class Niveau_Colere extends Phaser.Scene{
 
             }
 
-         } 
+        } 
+
+        if (this.Mouvement === true){
+
+            this.sound.add("Bruits_Pas", {volume : 5});
+
+        }
+        //var bruitages, si Mouvement est true, le son se lance. tentative de bruitage
 
     }
 

@@ -6,6 +6,10 @@ export class Niveau_Deni extends Phaser.Scene{
     preload(){
 
         this.load.audio("Musique_Deni", 'assets/Music/Musique_Deni.mp3')
+        //musique de fond
+
+        this.load.audio("Bruits_Pas", 'assets/Music/Pas.mp3')
+        //tentative de mettre des bruitages de pas
 
         this.load.spritesheet("ame","Sprites/ame/ame.png",
         { frameWidth: 32, frameHeight: 64 });    
@@ -35,16 +39,19 @@ export class Niveau_Deni extends Phaser.Scene{
 
         this.load.spritesheet("Perso_Idle","/Sprites/ame/ame_idle.png",
         { frameWidth: 32, frameHeight: 64 });
-        //en l'air
+        //immobile
 
         
     }
 
     create(){
 
+        this.Mouvement = false
+        //var pour sound effects
+
         this.musiqueDeFond = this.sound.add("Musique_Deni", {volume : 1.5});
         this.musiqueDeFond.play();
-
+        //ajout musique de fond
 
         this.add.image(479, 1279, 'Background_Deni');
         //ajout du background avec coordonnées 
@@ -128,35 +135,54 @@ export class Niveau_Deni extends Phaser.Scene{
             frameRate: 13,
             repeat: 0
         });
+        //ajout animations
 
 
 
     }
 
     update(){
-
         
 
         if (this.cursors.left.isDown || this.toucheQ.isDown ){ //si la touche gauche est appuyée
             this.player.setVelocityX(-250); //alors vitesse négative en X, personnage vers la gauche
 
-            if (this.player.body.onFloor())
+            this.Mouvement = true
+            //var pour sound effects
+
+            if (this.player.body.onFloor())//si le joueur touche le sol
+
                 this.player.anims.play('Gauche', true); 
                 this.player.setFlipX(true); //et animation => gauche
         }
         else if (this.cursors.right.isDown || this.toucheD.isDown ){ //sinon si la touche droite est appuyée
             this.player.setVelocityX(250); //alors vitesse positive en X, personnage vers la droite
 
-            if (this.player.body.onFloor())
+            this.Mouvement = true
+            //var pour sound effects
+
+            if (this.player.body.onFloor())//si le joueur touche le sol
+
                 this.player.anims.play('Droite', true); 
                 this.player.setFlipX(false);
         }
         else{ // sinon
             this.player.setVelocityX(0); //vitesse nulle, perso immobile
 
+            this.Mouvement = false
+            //var pour sound effects
+
             if (this.player.body.onFloor())
+
                 this.player.anims.play('Idle', true);
         }
+
+        if (this.Mouvement === true){
+
+            this.sound.add("Bruits_Pas", {volume : 5});
+
+        }
+        //var bruitages, si Mouvement est true, le son se lance. tentative de bruitage
 
         if (this.cursors.down.isDown || this.toucheS.isDown ){
         //si touche bas appuyée
@@ -189,8 +215,6 @@ export class Niveau_Deni extends Phaser.Scene{
             }
 
         } 
-
-
 
     }
 
